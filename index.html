@@ -7,337 +7,89 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2128;
-    --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.15);
-    --accent: #3fb950;
-    --accent-dim: rgba(63,185,80,0.15);
-    --accent2: #58a6ff;
-    --accent2-dim: rgba(88,166,255,0.12);
-    --warn: #d29922;
-    --danger: #f85149;
-    --danger-dim: rgba(248,81,73,0.15);
-    --text: #e6edf3;
-    --text-muted: #8b949e;
-    --text-dim: #484f58;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'Be Vietnam Pro', sans-serif;
-    --r: 10px;
+    --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;
+    --border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.15);
+    --accent:#3fb950;--accent-dim:rgba(63,185,80,0.15);
+    --accent2:#58a6ff;--accent2-dim:rgba(88,166,255,0.12);
+    --warn:#d29922;--danger:#f85149;--danger-dim:rgba(248,81,73,0.15);
+    --text:#e6edf3;--text-muted:#8b949e;--text-dim:#484f58;
+    --mono:'IBM Plex Mono',monospace;--sans:'Be Vietnam Pro',sans-serif;--r:10px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px;
-    min-height: 100vh;
-    padding-bottom: 3rem;
-  }
-
-  /* Header */
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .logo-mark svg { width: 18px; height: 18px; }
-  .header-text h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
-  .header-text p { font-size: 11px; color: var(--text-muted); font-family: var(--mono); }
-  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-  .time-badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-muted);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 99px;
-  }
-
-  /* Main layout */
-  .main { max-width: 560px; margin: 0 auto; padding: 1.25rem 1rem; display: flex; flex-direction: column; gap: 1rem; }
-
-  /* GPS card */
-  .gps-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    overflow: hidden;
-  }
-  .gps-top {
-    padding: 1rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .gps-icon {
-    width: 38px; height: 38px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: var(--accent2-dim);
-    border: 1px solid rgba(88,166,255,0.2);
-  }
-  .gps-label { font-size: 13px; font-weight: 500; }
-  .gps-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-  .gps-status-dot {
-    margin-left: auto;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--text-dim);
-    flex-shrink: 0;
-  }
-  .gps-status-dot.pulsing {
-    background: var(--warn);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  .gps-status-dot.ok { background: var(--accent); animation: none; }
-  .gps-status-dot.err { background: var(--danger); animation: none; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.3; } }
-
-  .gps-body { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 10px; }
-  .gps-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .gps-field {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 10px;
-  }
-  .gps-field .fl { font-size: 10px; color: var(--text-muted); font-family: var(--mono); margin-bottom: 2px; }
-  .gps-field .fv { font-size: 13px; font-family: var(--mono); font-weight: 500; color: var(--text); }
-  .gps-field.full { grid-column: 1 / -1; }
-  .gps-btn {
-    width: 100%;
-    background: var(--accent2-dim);
-    border: 1px solid rgba(88,166,255,0.3);
-    color: var(--accent2);
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    transition: background .15s, border-color .15s;
-  }
-  .gps-btn:hover { background: rgba(88,166,255,0.2); }
-  .gps-btn:disabled { opacity: .4; cursor: not-allowed; }
-  .gps-btn svg { width: 14px; height: 14px; }
-
-  /* Map mini */
-  .map-mini {
-    height: 160px;
-    background: var(--surface2);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-  }
-  .map-mini iframe { width: 100%; height: 100%; border: none; }
-  .map-placeholder { text-align: center; color: var(--text-dim); font-size: 12px; }
-  .map-placeholder svg { width: 28px; height: 28px; margin-bottom: 6px; opacity: .4; }
-
-  /* Section card */
-  .section-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    overflow: hidden;
-  }
-  .section-head {
-    padding: .75rem 1.1rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-head .sh-num {
-    width: 20px; height: 20px;
-    background: var(--surface2);
-    border: 1px solid var(--border-strong);
-    border-radius: 5px;
-    font-size: 10px;
-    font-family: var(--mono);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-  .section-head .sh-title { font-size: 13px; font-weight: 500; }
-  .section-body { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 10px; }
-
-  /* Form elements */
-  label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px; }
-  input[type=text], input[type=number], select, textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border-strong);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 14px;
-    padding: 9px 12px;
-    outline: none;
-    transition: border-color .15s;
-    -webkit-appearance: none;
-  }
-  input:focus, select:focus, textarea:focus { border-color: var(--accent2); }
-  select { cursor: pointer; }
-  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  /* Photo upload */
-  .photo-area {
-    border: 1px dashed var(--border-strong);
-    border-radius: 8px;
-    padding: 1.2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
-    position: relative;
-  }
-  .photo-area:hover { border-color: var(--accent2); background: var(--accent2-dim); }
-  .photo-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .photo-area svg { width: 24px; height: 24px; color: var(--text-dim); margin-bottom: 6px; }
-  .photo-area .pa-label { font-size: 12px; color: var(--text-muted); }
-  .photo-area .pa-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
-  .photo-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .photo-thumb {
-    aspect-ratio: 1;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    background: var(--surface2);
-  }
-  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .photo-thumb .del-btn {
-    position: absolute;
-    top: 3px; right: 3px;
-    width: 18px; height: 18px;
-    background: rgba(0,0,0,0.7);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff;
-    font-size: 10px;
-    line-height: 1;
-  }
-
-  /* Status select pills */
-  .pill-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .pill {
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 99px;
-    border: 1px solid var(--border-strong);
-    background: var(--surface2);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all .12s;
-    user-select: none;
-  }
-  .pill.sel-green { background: rgba(63,185,80,0.15); border-color: rgba(63,185,80,0.4); color: var(--accent); }
-  .pill.sel-warn { background: rgba(210,153,34,0.15); border-color: rgba(210,153,34,0.4); color: var(--warn); }
-  .pill.sel-danger { background: var(--danger-dim); border-color: rgba(248,81,73,0.35); color: var(--danger); }
-  .pill.sel-blue { background: var(--accent2-dim); border-color: rgba(88,166,255,0.35); color: var(--accent2); }
-
-  /* Submit */
-  .submit-btn {
-    width: 100%;
-    background: var(--accent);
-    border: none;
-    border-radius: var(--r);
-    color: #0d1117;
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 600;
-    padding: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: opacity .15s, transform .1s;
-    letter-spacing: -0.01em;
-  }
-  .submit-btn:hover { opacity: .9; }
-  .submit-btn:active { transform: scale(.99); }
-  .submit-btn:disabled { opacity: .4; cursor: not-allowed; }
-
-  /* Success screen */
-  .success-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 3rem 1.5rem;
-    gap: 1rem;
-  }
-  .success-screen.show { display: flex; }
-  .success-icon {
-    width: 64px; height: 64px;
-    background: rgba(63,185,80,0.15);
-    border: 1px solid rgba(63,185,80,0.3);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .success-icon svg { width: 28px; height: 28px; }
-  .success-screen h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
-  .success-screen p { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 280px; }
-  .success-ref { font-family: var(--mono); font-size: 12px; background: var(--surface2); border: 1px solid var(--border); padding: 6px 14px; border-radius: 99px; color: var(--accent); }
-  .reset-btn {
-    margin-top: .5rem;
-    background: var(--surface2);
-    border: 1px solid var(--border-strong);
-    color: var(--text-muted);
-    font-family: var(--sans);
-    font-size: 13px;
-    padding: 9px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .reset-btn:hover { color: var(--text); border-color: var(--border-strong); }
-
-  /* Alert */
-  .alert { padding: 10px 12px; border-radius: 8px; font-size: 12px; display: flex; align-items: flex-start; gap: 8px; }
-  .alert.info { background: var(--accent2-dim); border: 1px solid rgba(88,166,255,0.2); color: var(--accent2); }
-  .alert.warn { background: rgba(210,153,34,0.12); border: 1px solid rgba(210,153,34,0.25); color: var(--warn); }
-  .alert svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
-
-  /* Divider */
-  .divider { height: 1px; background: var(--border); }
-
-  /* Footer */
-  .footer { text-align: center; padding: 1.5rem 1rem 0; font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;min-height:100vh;padding-bottom:3rem;}
+  .header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+  .logo-mark{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .logo-mark svg{width:18px;height:18px;}
+  .header-text h1{font-size:15px;font-weight:600;letter-spacing:-0.02em;}
+  .header-text p{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+  .header-right{margin-left:auto;}
+  .time-badge{font-family:var(--mono);font-size:11px;color:var(--text-muted);background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:99px;}
+  .main{max-width:560px;margin:0 auto;padding:1.25rem 1rem;display:flex;flex-direction:column;gap:1rem;}
+  .gps-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+  .gps-top{padding:1rem 1.1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+  .gps-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--accent2-dim);border:1px solid rgba(88,166,255,0.2);}
+  .gps-label{font-size:13px;font-weight:500;}
+  .gps-sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
+  .gps-status-dot{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--text-dim);flex-shrink:0;}
+  .gps-status-dot.pulsing{background:var(--warn);animation:pulse 1.2s ease-in-out infinite;}
+  .gps-status-dot.ok{background:var(--accent);animation:none;}
+  .gps-status-dot.err{background:var(--danger);animation:none;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .gps-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:10px;}
+  .gps-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .gps-field{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;}
+  .gps-field .fl{font-size:10px;color:var(--text-muted);font-family:var(--mono);margin-bottom:2px;}
+  .gps-field .fv{font-size:13px;font-family:var(--mono);font-weight:500;color:var(--text);}
+  .gps-field.full{grid-column:1/-1;}
+  .gps-btn{width:100%;background:var(--accent2-dim);border:1px solid rgba(88,166,255,0.3);color:var(--accent2);font-family:var(--sans);font-size:13px;font-weight:500;padding:10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .15s;}
+  .gps-btn:hover{background:rgba(88,166,255,0.2);}
+  .gps-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .gps-btn svg{width:14px;height:14px;}
+  .section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+  .section-head{padding:.75rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .section-head .sh-num{width:20px;height:20px;background:var(--surface2);border:1px solid var(--border-strong);border-radius:5px;font-size:10px;font-family:var(--mono);display:flex;align-items:center;justify-content:center;color:var(--text-muted);flex-shrink:0;}
+  .section-head .sh-title{font-size:13px;font-weight:500;}
+  .section-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:10px;}
+  label{font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px;}
+  input[type=text],input[type=number],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border-strong);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 12px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent2);}
+  select{cursor:pointer;}
+  textarea{resize:vertical;min-height:80px;line-height:1.5;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .photo-area{border:1px dashed var(--border-strong);border-radius:8px;padding:1.2rem;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;position:relative;}
+  .photo-area:hover{border-color:var(--accent2);background:var(--accent2-dim);}
+  .photo-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .photo-area svg{width:24px;height:24px;color:var(--text-dim);margin-bottom:6px;}
+  .photo-area .pa-label{font-size:12px;color:var(--text-muted);}
+  .photo-area .pa-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .photo-previews{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .photo-thumb{aspect-ratio:1;border-radius:6px;overflow:hidden;position:relative;background:var(--surface2);}
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;}
+  .photo-thumb .del-btn{position:absolute;top:3px;right:3px;width:18px;height:18px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+  .pill-group{display:flex;flex-wrap:wrap;gap:6px;}
+  .pill{font-size:12px;padding:5px 12px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface2);color:var(--text-muted);cursor:pointer;transition:all .12s;user-select:none;}
+  .pill.sel-green{background:rgba(63,185,80,0.15);border-color:rgba(63,185,80,0.4);color:var(--accent);}
+  .pill.sel-warn{background:rgba(210,153,34,0.15);border-color:rgba(210,153,34,0.4);color:var(--warn);}
+  .pill.sel-danger{background:var(--danger-dim);border-color:rgba(248,81,73,0.35);color:var(--danger);}
+  .pill.sel-blue{background:var(--accent2-dim);border-color:rgba(88,166,255,0.35);color:var(--accent2);}
+  .submit-btn{width:100%;background:var(--accent);border:none;border-radius:var(--r);color:#0d1117;font-family:var(--sans);font-size:15px;font-weight:600;padding:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s,transform .1s;}
+  .submit-btn:hover{opacity:.9;}
+  .submit-btn:active{transform:scale(.99);}
+  .submit-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .success-screen{display:none;flex-direction:column;align-items:center;text-align:center;padding:3rem 1.5rem;gap:1rem;}
+  .success-screen.show{display:flex;}
+  .success-icon{width:64px;height:64px;background:rgba(63,185,80,0.15);border:1px solid rgba(63,185,80,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .success-icon svg{width:28px;height:28px;}
+  .success-screen h2{font-size:20px;font-weight:600;}
+  .success-screen p{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:280px;}
+  .success-ref{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);padding:6px 14px;border-radius:99px;color:var(--accent);}
+  .reset-btn{background:var(--surface2);border:1px solid var(--border-strong);color:var(--text-muted);font-family:var(--sans);font-size:13px;padding:9px 20px;border-radius:8px;cursor:pointer;}
+  .alert{padding:10px 12px;border-radius:8px;font-size:12px;display:flex;align-items:flex-start;gap:8px;}
+  .alert.warn{background:rgba(210,153,34,0.12);border:1px solid rgba(210,153,34,0.25);color:var(--warn);}
+  .alert svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;}
+  .footer{text-align:center;padding:1.5rem 1rem 0;font-size:11px;color:var(--text-dim);font-family:var(--mono);}
+  @keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
@@ -359,10 +111,9 @@
   </div>
 </div>
 
-<!-- FORM -->
 <div class="main" id="form-wrap">
 
-  <!-- GPS Card -->
+  <!-- GPS -->
   <div class="gps-card">
     <div class="gps-top">
       <div class="gps-icon">
@@ -379,100 +130,70 @@
     </div>
     <div class="gps-body">
       <div class="gps-row">
-        <div class="gps-field">
-          <div class="fl">LAT</div>
-          <div class="fv" id="gf-lat">—</div>
-        </div>
-        <div class="gps-field">
-          <div class="fl">LNG</div>
-          <div class="fv" id="gf-lng">—</div>
-        </div>
-        <div class="gps-field">
-          <div class="fl">ĐỘ CHÍNH XÁC</div>
-          <div class="fv" id="gf-acc">—</div>
-        </div>
-        <div class="gps-field">
-          <div class="fl">THỜI GIAN</div>
-          <div class="fv" id="gf-time">—</div>
-        </div>
-        <div class="gps-field full" id="gf-status-wrap">
-          <div class="fl">TRẠNG THÁI</div>
-          <div class="fv" id="gf-status" style="font-family:var(--sans);font-size:12px;color:var(--text-muted);">Chưa định vị</div>
-        </div>
+        <div class="gps-field"><div class="fl">LAT</div><div class="fv" id="gf-lat">—</div></div>
+        <div class="gps-field"><div class="fl">LNG</div><div class="fv" id="gf-lng">—</div></div>
+        <div class="gps-field"><div class="fl">ĐỘ CHÍNH XÁC</div><div class="fv" id="gf-acc">—</div></div>
+        <div class="gps-field"><div class="fl">THỜI GIAN</div><div class="fv" id="gf-time">—</div></div>
+        <div class="gps-field full"><div class="fl">TRẠNG THÁI</div><div class="fv" id="gf-status" style="font-family:var(--sans);font-size:12px;color:var(--text-muted);">Chưa định vị</div></div>
       </div>
-      <div id="gps-warn" style="display:none;padding:8px 10px;border-radius:8px;font-size:11px;background:rgba(210,153,34,0.12);border:1px solid rgba(210,153,34,0.3);color:var(--warn);">
-        Độ chính xác thấp hơn 50m. Đang thử lại để lấy tín hiệu tốt hơn...
-      </div>
+      <div id="gps-warn" style="display:none;padding:8px 10px;border-radius:8px;font-size:11px;background:rgba(210,153,34,0.12);border:1px solid rgba(210,153,34,0.3);color:var(--warn);">Độ chính xác thấp hơn 50m. Đang thử lại...</div>
       <button class="gps-btn" id="gps-btn" onclick="getGPS()">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="8" cy="8" r="3"/>
-          <path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/>
-        </svg>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg>
         Lấy vị trí GPS của tôi
       </button>
     </div>
   </div>
 
-  <!-- Thông tin cơ bản -->
+  <!-- Section 1 -->
   <div class="section-card">
     <div class="section-head">
       <div class="sh-num">1</div>
       <div class="sh-title">Thông tin nhân viên & công việc</div>
-      <div id="data-load-badge" style="margin-left:auto;font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:99px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);">Đang tải dữ liệu...</div>
+      <div id="data-load-badge" style="margin-left:auto;font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:99px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);">Đang tải...</div>
     </div>
     <div class="section-body">
-
-      <!-- Chi nhánh – tự chọn theo GPS -->
       <div>
         <label>Chi nhánh *
-          <span id="gps-zone-hint" style="font-size:10px;color:var(--accent);margin-left:6px;display:none;">● Đã tự chọn theo GPS</span>
+          <span id="gps-zone-hint" style="font-size:10px;color:var(--accent);margin-left:6px;display:none;"></span>
         </label>
         <select id="f-chinhanh" onchange="onChiNhanhChange()" disabled>
           <option value="">-- Đang tải... --</option>
         </select>
       </div>
-
-      <!-- Phòng GD -->
       <div>
         <label>Phòng giao dịch *</label>
         <select id="f-pgd" onchange="onPGDChange()" disabled>
           <option value="">-- Chọn chi nhánh trước --</option>
         </select>
       </div>
-
-      <!-- Nhân viên -->
       <div>
         <label>Nhân viên *</label>
         <select id="f-name" disabled>
           <option value="">-- Chọn phòng GD trước --</option>
         </select>
       </div>
-
-      <!-- Loại công việc -->
       <div>
         <label>Loại công việc *</label>
         <select id="f-jobtype" disabled>
           <option value="">-- Đang tải... --</option>
         </select>
       </div>
-
-      <!-- Địa chỉ công trình – tách ô -->
       <div>
         <label>Địa chỉ công trình *</label>
         <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-bottom:8px;">
-          <input type="text" id="f-addr-so" placeholder="Số nhà" />
-          <input type="text" id="f-addr-duong" placeholder="Tên đường" />
+          <input type="text" id="f-addr-so" placeholder="Số nhà"/>
+          <input type="text" id="f-addr-duong" placeholder="Tên đường"/>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <input type="text" id="f-addr-phuong" placeholder="Phường / Xã" />
-          <input type="text" id="f-addr-tp" placeholder="Thành phố / Tỉnh" />
+          <input type="text" id="f-addr-phuong" placeholder="Phường / Xã"/>
+          <input type="text" id="f-addr-tp" placeholder="Thành phố / Tỉnh"/>
         </div>
         <div id="f-addr-preview" style="font-size:11px;color:var(--text-muted);margin-top:6px;padding:6px 8px;background:var(--surface2);border-radius:6px;display:none;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Tình trạng công việc -->
+  <!-- Section 2 -->
   <div class="section-card">
     <div class="section-head">
       <div class="sh-num">2</div>
@@ -482,22 +203,22 @@
       <div>
         <label>Trạng thái hiện tại *</label>
         <div class="pill-group" id="status-pills">
-          <div class="pill" data-val="starting"   onclick="setPill(this,'blue')">Bắt đầu</div>
-          <div class="pill" data-val="inprogress"  onclick="setPill(this,'warn')">Đang thực hiện</div>
-          <div class="pill" data-val="done"        onclick="setPill(this,'green')">Hoàn thành</div>
-          <div class="pill" data-val="blocked"     onclick="setPill(this,'danger')">Tắc nghẽn / Sự cố</div>
-          <div class="pill" data-val="waiting"     onclick="setPill(this,'blue')">Chờ vật tư</div>
+          <div class="pill" data-val="starting"  onclick="setPill(this,'blue')">Bắt đầu</div>
+          <div class="pill" data-val="inprogress" onclick="setPill(this,'warn')">Đang thực hiện</div>
+          <div class="pill" data-val="done"       onclick="setPill(this,'green')">Hoàn thành</div>
+          <div class="pill" data-val="blocked"    onclick="setPill(this,'danger')">Tắc nghẽn / Sự cố</div>
+          <div class="pill" data-val="waiting"    onclick="setPill(this,'blue')">Chờ vật tư</div>
         </div>
       </div>
       <div class="form-row">
         <div>
           <label>% Tiến độ <span id="progress-required" style="color:var(--danger);display:none;">*</span></label>
-          <input type="number" id="f-progress" min="0" max="100" placeholder="0–100" oninput="clampProgress(this)" />
+          <input type="number" id="f-progress" min="0" max="100" placeholder="0–100" oninput="clampProgress(this)"/>
           <div id="progress-hint" style="font-size:10px;color:var(--text-dim);margin-top:3px;display:none;"></div>
         </div>
         <div>
           <label>Giờ hoàn thành (dự kiến)</label>
-          <input type="text" id="f-eta" placeholder="VD: 14:30" />
+          <input type="text" id="f-eta" placeholder="VD: 14:30"/>
         </div>
       </div>
       <div>
@@ -507,51 +228,44 @@
     </div>
   </div>
 
-  <!-- Ảnh hiện trường -->
+  <!-- Section 3 -->
   <div class="section-card">
     <div class="section-head">
       <div class="sh-num">3</div>
       <div class="sh-title">Ảnh hiện trường <span style="color:var(--danger);font-size:11px;">* Bắt buộc</span></div>
     </div>
     <div class="section-body">
-      <div class="alert warn" id="photo-timemark-alert">
-        <svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;margin-top:2px;"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 100-2 1 1 0 000 2z"/></svg>
+      <div class="alert warn">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 100-2 1 1 0 000 2z"/></svg>
         <div style="line-height:1.7;">
           <strong>Quy trình chụp ảnh bắt buộc:</strong><br>
-          1. Mở app <strong>Timemark</strong> trên điện thoại → chụp ảnh hiện trường<br>
-          2. Ảnh Timemark tự gắn <strong>thời gian + tọa độ GPS</strong> lên ảnh<br>
-          3. Quay lại đây → nhấn nút bên dưới → chọn ảnh vừa chụp từ thư viện<br>
-          <span style="color:var(--danger);font-size:11px;">⛔ Ảnh không có timemark hoặc chụp sai vị trí → bị cảnh báo gian lận</span>
+          1. Mở app <strong>Timemark</strong> → chụp ảnh hiện trường<br>
+          2. Timemark tự gắn <strong>thời gian + GPS</strong> lên ảnh<br>
+          3. Quay lại đây → chọn ảnh vừa chụp từ thư viện<br>
+          <span style="color:var(--danger);font-size:11px;">⛔ Ảnh sai vị trí / không có timemark → bị cảnh báo gian lận</span>
         </div>
       </div>
       <div class="photo-area" id="photo-area">
-        <input type="file" accept="image/*" multiple onchange="handlePhotos(event)" />
+        <input type="file" accept="image/*" multiple onchange="handlePhotos(event)"/>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7l-2-4H10L8 7"/><circle cx="12" cy="14" r="3"/></svg>
         <div class="pa-label">Chọn ảnh từ Timemark <span style="color:var(--danger);">*</span></div>
-        <div class="pa-sub">Tối đa 6 ảnh · Phải là ảnh chụp từ app Timemark</div>
+        <div class="pa-sub">Tối đa 6 ảnh · Phải là ảnh từ app Timemark</div>
       </div>
       <div id="photo-count-warn" style="display:none;font-size:12px;color:var(--danger);padding:6px 0;"></div>
       <div class="photo-previews" id="photo-previews"></div>
     </div>
   </div>
 
-  <!-- Submit -->
   <button class="submit-btn" id="submit-btn" onclick="submitReport()">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M2 9l5 5 9-9" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l5 5 9-9" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Gửi báo cáo hiện trường
   </button>
-
-  <div class="footer">VTel Field Report v1.0 · Dữ liệu được bảo mật</div>
+  <div class="footer">VTel Field Report v2.0 · Dữ liệu được bảo mật</div>
 </div>
 
-<!-- SUCCESS -->
 <div class="main success-screen" id="success-screen">
   <div class="success-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2">
-      <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
   <h2>Báo cáo đã được gửi!</h2>
   <p>Dữ liệu hiện trường bao gồm tọa độ GPS và ảnh đã được ghi nhận thành công.</p>
@@ -560,374 +274,287 @@
   <button class="reset-btn" onclick="resetForm()">Tạo báo cáo mới</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js"></script>
 <script>
 // ============================================================
-//  CẤU HÌNH – chỉ cần điền 2 dòng này
+//  CẤU HÌNH
 // ============================================================
-const SHEET_URL   = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec'; // URL gửi báo cáo
-const DATA_URL    = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec';  // URL đọc danh sách
-// ============================================================
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec';
+const DATA_URL  = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec';
 
-// Dữ liệu tải từ Sheets
-let sheetData = { branches: {}, employees: {}, jobs: [] };
+// ── BIẾN GLOBAL (khai báo trước tất cả) ──────────────────
+let gpsData       = null;
+let sheetData     = { branches:{}, employees:{}, jobs:[] };
+let selectedStatus= '';
+let photos        = [];
+let gpsZoneLocked = false;
+let gpsRetryCount = 0;
+let pendingZone   = null; // zone chờ apply khi sheetData load xong
 
-// ── Tải dữ liệu từ Google Sheets ──────────────────────────
+const GPS_MAX_ACCURACY = 50;
+
+// ── BẢNG ZONE – khớp từ khóa tỉnh/thành với PGD ─────────
+// Thêm tỉnh/thành mới vào đây khi mở rộng
+const ZONE_MAP = [
+  { keywords:['đà nẵng','da nang'],                                chinhanh:'Đà Nẵng',    pgd:'Đà Nẵng'    },
+  { keywords:['quảng nam','quang nam','hội an','tam kỳ'],           chinhanh:'Đà Nẵng',    pgd:'Quảng Nam'  },
+  { keywords:['thừa thiên','thua thien','huế','thua thien hue'],    chinhanh:'Huế',         pgd:'Huế'        },
+  { keywords:['quảng trị','quang tri','đông hà'],                   chinhanh:'Quảng Trị',  pgd:'Quảng Trị'  },
+  { keywords:['quảng bình','quang binh','đồng hới'],                chinhanh:'Quảng Trị',  pgd:'Quảng Bình' },
+  { keywords:['quảng ngãi','quang ngai'],                          chinhanh:'Quảng Ngãi', pgd:'Quảng Ngãi' },
+  { keywords:['kon tum','kontum','kon_tum'],                        chinhanh:'Quảng Ngãi', pgd:'KonTum'     },
+  // --- Thêm tỉnh/thành mới bên dưới ---
+];
+
+// Chuẩn hoá tiếng Việt có dấu → không dấu để so sánh
+function norm(s) {
+  return (s||'').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/đ/g,'d');
+}
+
+function matchZone(text) {
+  const t = norm(text);
+  for (const z of ZONE_MAP) {
+    if (z.keywords.some(kw => t.includes(norm(kw)))) return z;
+  }
+  return null;
+}
+
+// ── CLOCK ────────────────────────────────────────────────
+function updateClock() {
+  document.getElementById('clock-badge').textContent =
+    new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,10000);
+
+// ── LOAD DỮ LIỆU TỪ SHEETS ──────────────────────────────
 async function loadSheetData() {
   const badge = document.getElementById('data-load-badge');
   try {
-    if (!DATA_URL || DATA_URL === 'PASTE_YOUR_DATA_SCRIPT_URL_HERE') {
-      // Chế độ demo – dùng dữ liệu mẫu
-      sheetData = getDemoData();
-      applySheetData();
-      badge.textContent = '● Dữ liệu mẫu';
-      badge.style.color = 'var(--warn)';
-      return;
-    }
     badge.textContent = '⟳ Đang tải...';
-    const res = await fetch(DATA_URL + '?action=getData');
+    const res  = await fetch(DATA_URL + '?action=getData');
     const json = await res.json();
-    sheetData = json;
+    if (json.branches) sheetData = json;
+    else throw new Error('Dữ liệu không hợp lệ');
     applySheetData();
-    badge.textContent = '● Đã đồng bộ Sheets';
+    badge.textContent = '● Đã đồng bộ';
     badge.style.color = 'var(--accent)';
   } catch(e) {
     sheetData = getDemoData();
     applySheetData();
-    badge.textContent = '⚠ Dùng dữ liệu cache';
+    badge.textContent = '⚠ Dữ liệu mẫu';
     badge.style.color = 'var(--warn)';
+  }
+  // Nếu GPS đã lấy xong trước khi sheetData load → apply zone ngay
+  if (pendingZone) {
+    applyZone(pendingZone);
+    pendingZone = null;
   }
 }
 
 function getDemoData() {
   return {
-    branches: {
-      'Đà Nẵng':    { pgds: ['Đà Nẵng', 'Quảng Nam'] },
-      'Huế':        { pgds: ['Huế'] },
-      'Quảng Trị':  { pgds: ['Quảng Trị', 'Quảng Bình'] },
-      'Quảng Ngãi': { pgds: ['Quảng Ngãi', 'KonTum'] },
+    branches:{
+      'Đà Nẵng':   {pgds:['Đà Nẵng','Quảng Nam']},
+      'Huế':       {pgds:['Huế']},
+      'Quảng Trị': {pgds:['Quảng Trị','Quảng Bình']},
+      'Quảng Ngãi':{pgds:['Quảng Ngãi','KonTum']},
     },
-    employees: {
-      'Đà Nẵng':    ['Nguyễn Văn An', 'Trần Thị Bảo', 'Lê Minh Cường'],
-      'Quảng Nam':  ['Phạm Thị Dung', 'Hoàng Đức Em'],
-      'Huế':        ['Vũ Thị Phương', 'Đặng Văn Giang'],
-      'Quảng Trị':  ['Bùi Thị Hoa', 'Ngô Văn Inh'],
-      'Quảng Bình': ['Đinh Thị Kim', 'Lý Văn Long'],
-      'Quảng Ngãi': ['Trương Văn Minh', 'Hồ Thị Nga'],
-      'KonTum':     ['Phan Văn Oanh', 'Tạ Thị Phúc'],
+    employees:{
+      'Đà Nẵng':   ['Nguyễn Văn An','Trần Thị Bảo'],
+      'Quảng Nam': ['Phạm Thị Dung'],
+      'Huế':       ['Vũ Thị Phương'],
+      'Quảng Trị': ['Bùi Thị Hoa'],
+      'Quảng Bình':['Đinh Thị Kim'],
+      'Quảng Ngãi':['Trương Văn Minh'],
+      'KonTum':    ['Phan Văn Oanh'],
     },
-    jobs: [
-      { group: 'Lắp đặt dịch vụ', name: 'Lắp đặt dịch vụ internet' },
-      { group: 'Lắp đặt dịch vụ', name: 'Lắp đặt dịch vụ truyền hình' },
-      { group: 'Lắp đặt dịch vụ', name: 'Lắp đặt dịch vụ OTT' },
-      { group: 'Lắp đặt dịch vụ', name: 'Lắp đặt trọn gói (Net+THC)' },
-      { group: 'Lắp đặt dịch vụ', name: 'Lắp đặt trọn gói (Net+OTT)' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Bảo trì dịch vụ KH' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Xử lý sự cố hạ tầng đồng trục' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Xử lý sự cố cáp quang' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Cân chỉnh hạ tầng' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Dò nhiễu' },
-      { group: 'Bảo trì & Xử lý sự cố', name: 'Xử lý modem lỗi' },
-      { group: 'Khác', name: 'Khác' },
+    jobs:[
+      {group:'Lắp đặt dịch vụ',name:'Lắp đặt dịch vụ internet'},
+      {group:'Lắp đặt dịch vụ',name:'Lắp đặt dịch vụ truyền hình'},
+      {group:'Lắp đặt dịch vụ',name:'Lắp đặt dịch vụ OTT'},
+      {group:'Lắp đặt dịch vụ',name:'Lắp đặt trọn gói (Net+THC)'},
+      {group:'Lắp đặt dịch vụ',name:'Lắp đặt trọn gói (Net+OTT)'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Bảo trì dịch vụ KH'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Xử lý sự cố hạ tầng đồng trục'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Xử lý sự cố cáp quang'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Cân chỉnh hạ tầng'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Dò nhiễu'},
+      {group:'Bảo trì & Xử lý sự cố',name:'Xử lý modem lỗi'},
+      {group:'Khác',name:'Khác'},
     ]
   };
 }
 
 function applySheetData() {
-  // Điền Chi nhánh
   const selCN = document.getElementById('f-chinhanh');
   selCN.innerHTML = '<option value="">-- Chọn chi nhánh --</option>';
-  Object.keys(sheetData.branches).forEach(cn => {
-    selCN.innerHTML += `<option value="${cn}">${cn}</option>`;
-  });
+  Object.keys(sheetData.branches).forEach(cn =>
+    selCN.innerHTML += `<option value="${cn}">${cn}</option>`
+  );
   selCN.disabled = false;
 
-  // Điền Loại công việc theo nhóm
   const selJob = document.getElementById('f-jobtype');
   selJob.innerHTML = '<option value="">-- Chọn loại công việc --</option>';
   const groups = {};
   sheetData.jobs.forEach(j => {
-    if (!groups[j.group]) groups[j.group] = [];
+    if(!groups[j.group]) groups[j.group]=[];
     groups[j.group].push(j.name);
   });
-  Object.entries(groups).forEach(([grp, items]) => {
+  Object.entries(groups).forEach(([grp,items]) => {
     let og = `<optgroup label="── ${grp} ──">`;
     items.forEach(n => og += `<option>${n}</option>`);
-    og += '</optgroup>';
-    selJob.innerHTML += og;
+    selJob.innerHTML += og + '</optgroup>';
   });
   selJob.disabled = false;
 }
 
-// ── Cascade: Chi nhánh → Phòng GD ─────────────────────────
 function onChiNhanhChange() {
+  if (gpsZoneLocked) return; // đã khóa theo GPS, không cho đổi
   const cn = document.getElementById('f-chinhanh').value;
   const selPGD = document.getElementById('f-pgd');
   const selNV  = document.getElementById('f-name');
-
   selPGD.innerHTML = '<option value="">-- Chọn phòng GD --</option>';
   selNV.innerHTML  = '<option value="">-- Chọn phòng GD trước --</option>';
   selNV.disabled = true;
-
-  if (!cn) { selPGD.disabled = true; return; }
-  const pgds = sheetData.branches[cn]?.pgds || [];
-  pgds.forEach(p => selPGD.innerHTML += `<option value="${p}">${p}</option>`);
+  if (!cn) { selPGD.disabled=true; return; }
+  (sheetData.branches[cn]?.pgds||[]).forEach(p =>
+    selPGD.innerHTML += `<option value="${p}">${p}</option>`
+  );
   selPGD.disabled = false;
   selPGD.value = '';
 }
 
-// ── Cascade: Phòng GD → Nhân viên ─────────────────────────
 function onPGDChange() {
+  if (gpsZoneLocked) return;
   const pgd   = document.getElementById('f-pgd').value;
   const selNV = document.getElementById('f-name');
-
   selNV.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
-  if (!pgd) { selNV.disabled = true; return; }
-
-  const nvs = sheetData.employees[pgd] || [];
-  nvs.forEach(n => selNV.innerHTML += `<option value="${n}">${n}</option>`);
+  if (!pgd) { selNV.disabled=true; return; }
+  (sheetData.employees[pgd]||[]).forEach(n =>
+    selNV.innerHTML += `<option value="${n}">${n}</option>`
+  );
   selNV.disabled = false;
   selNV.value = '';
 }
 
-// Clock
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock-badge').textContent =
-    now.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
-}
-updateClock();
-setInterval(updateClock, 10000);
-
-let gpsRetryCount = 0;
-const GPS_MAX_ACCURACY = 50; // mét
-
+// ── GPS ──────────────────────────────────────────────────
 function getGPS() {
-  const btn        = document.getElementById('gps-btn');
-  const dot        = document.getElementById('gps-dot');
-  const statusText = document.getElementById('gps-status-text');
-  const warn       = document.getElementById('gps-warn');
-
-  if (!navigator.geolocation) {
-    setGPSError('Trình duyệt không hỗ trợ GPS');
-    return;
-  }
-
-  gpsRetryCount = 0;
-  warn.style.display = 'none';
-  btn.disabled = true;
-  dot.className = 'gps-status-dot pulsing';
-  statusText.textContent = 'Đang định vị...';
-  btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Đang định vị...`;
-
+  if (!navigator.geolocation) { setGPSError('Trình duyệt không hỗ trợ GPS'); return; }
+  const btn=document.getElementById('gps-btn'),
+        dot=document.getElementById('gps-dot'),
+        st =document.getElementById('gps-status-text');
+  gpsRetryCount=0;
+  document.getElementById('gps-warn').style.display='none';
+  btn.disabled=true; dot.className='gps-status-dot pulsing';
+  st.textContent='Đang định vị...';
+  btn.innerHTML=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Đang định vị...`;
   tryGetPosition();
 }
 
 function tryGetPosition() {
-  const warn = document.getElementById('gps-warn');
+  navigator.geolocation.getCurrentPosition(pos => {
+    const {latitude:lat, longitude:lng, accuracy:acc} = pos.coords;
+    const ts = new Date(pos.timestamp);
+    gpsData = {lat,lng,accuracy:acc,timestamp:ts.toISOString()};
+    document.getElementById('gf-lat').textContent  = lat.toFixed(6);
+    document.getElementById('gf-lng').textContent  = lng.toFixed(6);
+    document.getElementById('gf-acc').textContent  = Math.round(acc)+'m';
+    document.getElementById('gf-time').textContent = ts.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const { latitude, longitude, accuracy } = pos.coords;
-      const ts = new Date(pos.timestamp);
-
-      // Cập nhật hiển thị
-      document.getElementById('gf-lat').textContent  = latitude.toFixed(6);
-      document.getElementById('gf-lng').textContent  = longitude.toFixed(6);
-      document.getElementById('gf-acc').textContent  = Math.round(accuracy) + ' m';
-      document.getElementById('gf-time').textContent = ts.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-
-      if (accuracy <= GPS_MAX_ACCURACY) {
-        gpsData = { lat: latitude, lng: longitude, accuracy, timestamp: ts.toISOString() };
-        document.getElementById('gps-dot').className = 'gps-status-dot ok';
-        document.getElementById('gps-status-text').textContent = 'Đã định vị · ±' + Math.round(accuracy) + 'm';
-        document.getElementById('gf-status').textContent = '✓ Đạt yêu cầu (≤50m)';
-        document.getElementById('gf-status').style.color = 'var(--accent)';
-        warn.style.display = 'none';
-        const btn = document.getElementById('gps-btn');
-        btn.disabled = false;
-        btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Cập nhật lại GPS`;
-        autoSelectZone(latitude, longitude);
+    if (acc <= GPS_MAX_ACCURACY) {
+      document.getElementById('gps-dot').className='gps-status-dot ok';
+      document.getElementById('gps-status-text').textContent='Đã định vị · ±'+Math.round(acc)+'m';
+      document.getElementById('gf-status').textContent='✓ Đạt yêu cầu (≤50m)';
+      document.getElementById('gf-status').style.color='var(--accent)';
+      document.getElementById('gps-warn').style.display='none';
+      const btn=document.getElementById('gps-btn');
+      btn.disabled=false;
+      btn.innerHTML=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Cập nhật lại GPS`;
+      // Gọi zone detection sau khi GPS ok
+      detectAndApplyZone(lat, lng);
+    } else {
+      gpsRetryCount++;
+      document.getElementById('gf-status').textContent=`Đang cải thiện... (${gpsRetryCount}/5) ±${Math.round(acc)}m`;
+      document.getElementById('gf-status').style.color='var(--warn)';
+      document.getElementById('gps-warn').style.display='block';
+      if (gpsRetryCount < 5) {
+        setTimeout(tryGetPosition, 3000);
       } else {
-        // Chưa đạt – lưu tạm và thử lại
-        gpsData = { lat: latitude, lng: longitude, accuracy, timestamp: ts.toISOString() };
-        gpsRetryCount++;
-        document.getElementById('gf-status').textContent = `Đang cải thiện... lần ${gpsRetryCount} (±${Math.round(accuracy)}m)`;
-        document.getElementById('gf-status').style.color = 'var(--warn)';
-        warn.style.display = 'block';
-
-        if (gpsRetryCount < 5) {
-          setTimeout(tryGetPosition, 3000); // thử lại sau 3 giây
-        } else {
-          // Đã thử 5 lần – dùng kết quả tốt nhất hiện có
-          document.getElementById('gps-dot').className = 'gps-status-dot ok';
-          document.getElementById('gps-status-text').textContent = 'Định vị xong · ±' + Math.round(accuracy) + 'm (tín hiệu yếu)';
-          document.getElementById('gf-status').textContent = `⚠ Độ chính xác ${Math.round(accuracy)}m – vẫn tiếp tục`;
-          document.getElementById('gf-status').style.color = 'var(--warn)';
-          warn.style.display = 'none';
-          const btn = document.getElementById('gps-btn');
-          btn.disabled = false;
-          btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Thử lại GPS`;
-        }
+        document.getElementById('gps-dot').className='gps-status-dot ok';
+        document.getElementById('gps-status-text').textContent='Định vị xong · ±'+Math.round(acc)+'m (tín hiệu yếu)';
+        document.getElementById('gf-status').textContent=`⚠ Độ chính xác ${Math.round(acc)}m`;
+        document.getElementById('gf-status').style.color='var(--warn)';
+        document.getElementById('gps-warn').style.display='none';
+        const btn=document.getElementById('gps-btn');
+        btn.disabled=false;
+        btn.innerHTML=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Thử lại GPS`;
+        detectAndApplyZone(lat, lng);
       }
-    },
-    (err) => {
-      setGPSError(
-        err.code === 1 ? 'Bị từ chối quyền truy cập vị trí' :
-        err.code === 2 ? 'Không xác định được vị trí' :
-        'Hết thời gian chờ GPS'
-      );
-      const btn = document.getElementById('gps-btn');
-      btn.disabled = false;
-      btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Thử lại GPS`;
-    },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-  );
+    }
+  }, err => {
+    setGPSError(err.code===1?'Bị từ chối quyền vị trí':err.code===2?'Không xác định được vị trí':'Hết thời gian chờ GPS');
+    const btn=document.getElementById('gps-btn');
+    btn.disabled=false;
+    btn.innerHTML=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke-linecap="round"/></svg> Thử lại GPS`;
+  }, {enableHighAccuracy:true,timeout:15000,maximumAge:0});
 }
 
 function setGPSError(msg) {
-  document.getElementById('gps-dot').className = 'gps-status-dot err';
-  document.getElementById('gps-status-text').textContent = msg;
+  document.getElementById('gps-dot').className='gps-status-dot err';
+  document.getElementById('gps-status-text').textContent=msg;
 }
 
-// Auto get GPS + load sheet data on load
-window.addEventListener('load', () => {
-  setTimeout(getGPS, 800);
-  loadSheetData();
-});
-
-// Pill selection – xử lý % tiến độ theo trạng thái
-let selectedStatus = '';
-function setPill(el, colorClass) {
-  document.querySelectorAll('#status-pills .pill').forEach(p => p.className = 'pill');
-  el.className = `pill sel-${colorClass}`;
-  selectedStatus = el.dataset.val;
-
-  const progInput = document.getElementById('f-progress');
-  const progReq   = document.getElementById('progress-required');
-  const progHint  = document.getElementById('progress-hint');
-
-  if (selectedStatus === 'done') {
-    progInput.value = '100';
-    progInput.readOnly = true;
-    progInput.style.opacity = '0.6';
-    progReq.style.display = 'none';
-    progHint.textContent = 'Tự động đặt 100% khi hoàn thành';
-    progHint.style.display = 'block';
-  } else if (selectedStatus === 'inprogress') {
-    if (progInput.value === '100') progInput.value = '';
-    progInput.readOnly = false;
-    progInput.style.opacity = '1';
-    progReq.style.display = 'inline';
-    progHint.textContent = 'Bắt buộc nhập % tiến độ khi đang thực hiện';
-    progHint.style.color = 'var(--warn)';
-    progHint.style.display = 'block';
-    progInput.focus();
-  } else {
-    progInput.readOnly = false;
-    progInput.style.opacity = '1';
-    progReq.style.display = 'none';
-    progHint.style.display = 'none';
-  }
-}
-
-function clampProgress(el) {
-  let v = parseInt(el.value);
-  if (v > 100) el.value = 100;
-  if (v < 0)   el.value = 0;
-}
-
-// Địa chỉ – preview khi nhập
-function updateAddrPreview() {
-  const so     = document.getElementById('f-addr-so').value.trim();
-  const duong  = document.getElementById('f-addr-duong').value.trim();
-  const phuong = document.getElementById('f-addr-phuong').value.trim();
-  const tp     = document.getElementById('f-addr-tp').value.trim();
-  const parts  = [so, duong, phuong, tp].filter(Boolean);
-  const preview= document.getElementById('f-addr-preview');
-  if (parts.length > 0) {
-    preview.textContent = '📍 ' + parts.join(', ');
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-  }
-}
-['f-addr-so','f-addr-duong','f-addr-phuong','f-addr-tp'].forEach(id => {
-  document.getElementById(id)?.addEventListener('input', updateAddrPreview);
-});
-
-// Ghép địa chỉ đầy đủ để gửi
-function getFullAddress() {
-  const so     = document.getElementById('f-addr-so').value.trim();
-  const duong  = document.getElementById('f-addr-duong').value.trim();
-  const phuong = document.getElementById('f-addr-phuong').value.trim();
-  const tp     = document.getElementById('f-addr-tp').value.trim();
-  return [so, duong, phuong, tp].filter(Boolean).join(', ');
-}
-
-// GPS zone detection – tự khớp PGD theo vị trí GPS
-// Bảng tọa độ trung tâm từng PGD (lat, lng, radius km)
-// Bảng khớp tên tỉnh/thành phố với Chi nhánh và PGD
-const ZONE_MAP = [
-  { keywords: ['đà nẵng', 'da nang'],                              chinhanh: 'Đà Nẵng',    pgd: 'Đà Nẵng'    },
-  { keywords: ['quảng nam', 'quang nam', 'hội an', 'hoi an', 'tam kỳ'], chinhanh: 'Đà Nẵng', pgd: 'Quảng Nam' },
-  { keywords: ['thừa thiên', 'thua thien', 'huế', 'hue'],          chinhanh: 'Huế',         pgd: 'Huế'        },
-  { keywords: ['quảng trị', 'quang tri', 'đông hà', 'dong ha'],    chinhanh: 'Quảng Trị',  pgd: 'Quảng Trị'  },
-  { keywords: ['quảng bình', 'quang binh', 'đồng hới', 'dong hoi'],chinhanh: 'Quảng Trị',  pgd: 'Quảng Bình' },
-  { keywords: ['quảng ngãi', 'quang ngai'],                        chinhanh: 'Quảng Ngãi', pgd: 'Quảng Ngãi' },
-  { keywords: ['kon tum', 'kontum', 'kon_tum'],                    chinhanh: 'Quảng Ngãi', pgd: 'KonTum'     },
-];
-
-function matchZoneFromText(text) {
-  const lower = (text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  for (const z of ZONE_MAP) {
-    if (z.keywords.some(kw => {
-      const kwNorm = kw.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      return lower.includes(kwNorm);
-    })) return z;
-  }
-  return null;
-}
-
-let gpsZoneLocked = false;
-
-async function autoSelectZone(lat, lng) {
-  if (!sheetData.branches || Object.keys(sheetData.branches).length === 0) return;
-
+// ── ZONE DETECTION: reverse geocode → khớp tỉnh → khoá PGD ──
+async function detectAndApplyZone(lat, lng) {
   const hint = document.getElementById('gps-zone-hint');
-  hint.textContent = '⟳ Đang xác định khu vực...';
-  hint.style.color = 'var(--text-muted)';
-  hint.style.display = 'inline';
+  hint.textContent='⟳ Đang xác định khu vực...';
+  hint.style.color='var(--text-muted)';
+  hint.style.display='inline';
 
   try {
-    // Reverse geocode: lấy địa chỉ từ tọa độ GPS
     const res  = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=vi`,
-      { headers: { 'Accept-Language': 'vi' } }
+      {headers:{'Accept-Language':'vi'}}
     );
     const data = await res.json();
-    const fullAddr = data.display_name || '';
-    // Ưu tiên dùng state (tỉnh/thành phố) từ address object
-    const stateText = (data.address?.state || '') + ' ' + (data.address?.city || '') + ' ' + fullAddr;
 
-    const zone = matchZoneFromText(stateText);
+    // Lấy tên tỉnh/thành từ nhiều trường để tăng độ chắc
+    const state   = data.address?.state        || '';
+    const county  = data.address?.county       || '';
+    const city    = data.address?.city         || '';
+    const display = data.display_name          || '';
+    const searchText = [state, county, city, display].join(' ');
+
+    console.log('[Zone] Nominatim state:', state, '| city:', city);
+    console.log('[Zone] searchText:', searchText);
+
+    const zone = matchZone(searchText);
+    console.log('[Zone] matched:', zone ? zone.pgd : 'KHÔNG KHỚP');
 
     if (!zone) {
-      hint.textContent = '⚠ Ngoài vùng phục vụ – chọn thủ công';
-      hint.style.color = 'var(--warn)';
-      gpsZoneLocked = false;
-      // Cho phép chọn thủ công
-      document.getElementById('f-chinhanh').disabled = false;
+      hint.textContent='⚠ Ngoài vùng phục vụ – chọn thủ công';
+      hint.style.color='var(--warn)';
+      document.getElementById('f-chinhanh').disabled=false;
+      return;
+    }
+
+    // Kiểm tra sheetData đã load chưa
+    if (Object.keys(sheetData.branches).length === 0) {
+      // Chưa load xong → lưu lại, loadSheetData sẽ apply sau
+      pendingZone = zone;
+      hint.textContent='⟳ Đang chờ dữ liệu...';
       return;
     }
 
     applyZone(zone);
-    hint.innerHTML = `● Khu vực: <strong>${zone.pgd}</strong> (đã khóa theo GPS)`;
-    hint.style.color = 'var(--accent)';
 
   } catch(e) {
-    hint.textContent = '⚠ Lỗi xác định khu vực – chọn thủ công';
-    hint.style.color = 'var(--warn)';
-    gpsZoneLocked = false;
+    console.error('[Zone] Lỗi:', e);
+    hint.textContent='⚠ Lỗi xác định khu vực – chọn thủ công';
+    hint.style.color='var(--warn)';
   }
 }
 
@@ -935,448 +562,354 @@ function applyZone(zone) {
   const selCN  = document.getElementById('f-chinhanh');
   const selPGD = document.getElementById('f-pgd');
   const selNV  = document.getElementById('f-name');
+  const hint   = document.getElementById('gps-zone-hint');
 
-  // Khóa Chi nhánh – chỉ hiện chi nhánh đúng
-  selCN.innerHTML = `<option value="${zone.chinhanh}">${zone.chinhanh}</option>`;
-  selCN.value     = zone.chinhanh;
-  selCN.disabled  = true;
+  // Kiểm tra chi nhánh có tồn tại trong sheetData không
+  if (!sheetData.branches[zone.chinhanh]) {
+    hint.textContent='⚠ Khu vực không có trong hệ thống – chọn thủ công';
+    hint.style.color='var(--warn)';
+    return;
+  }
 
-  // Khóa PGD – chỉ hiện PGD đúng
-  selPGD.innerHTML = `<option value="${zone.pgd}">${zone.pgd}</option>`;
-  selPGD.value     = zone.pgd;
-  selPGD.disabled  = true;
+  // Khoá chi nhánh
+  selCN.innerHTML=`<option value="${zone.chinhanh}">${zone.chinhanh}</option>`;
+  selCN.value=zone.chinhanh;
+  selCN.disabled=true;
 
-  // Điền nhân viên của PGD đó
-  selNV.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
-  const nvs = sheetData.employees[zone.pgd] || [];
-  nvs.forEach(n => selNV.innerHTML += `<option value="${n}">${n}</option>`);
-  selNV.disabled = (nvs.length === 0);
+  // Khoá PGD
+  selPGD.innerHTML=`<option value="${zone.pgd}">${zone.pgd}</option>`;
+  selPGD.value=zone.pgd;
+  selPGD.disabled=true;
 
-  gpsZoneLocked = true;
+  // Điền nhân viên
+  selNV.innerHTML='<option value="">-- Chọn nhân viên --</option>';
+  (sheetData.employees[zone.pgd]||[]).forEach(n =>
+    selNV.innerHTML += `<option value="${n}">${n}</option>`
+  );
+  selNV.disabled=false;
+
+  hint.innerHTML=`● Khu vực: <strong>${zone.pgd}</strong> (đã khoá theo GPS)`;
+  hint.style.color='var(--accent)';
+  hint.style.display='inline';
+  gpsZoneLocked=true;
+
   showTimemarkReminder(zone.pgd);
 }
 
+// ── TOAST NHẮC CHỤP ẢNH ─────────────────────────────────
 function showTimemarkReminder(pgdName) {
-  if (photos.length > 0) return; // đã có ảnh rồi thì không nhắc
-
-  // Toast nổi lên ở giữa màn hình
-  const toast = document.createElement('div');
-  toast.id = 'timemark-toast';
-  toast.style.cssText = `
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    z-index:9999;width:88%;max-width:340px;
-    background:#161b22;border:1px solid rgba(210,153,34,0.5);
-    border-radius:12px;padding:20px 18px;text-align:center;
-    box-shadow:0 8px 32px rgba(0,0,0,0.6);
-  `;
-  toast.innerHTML = `
+  if (photos.length>0 || document.getElementById('timemark-toast')) return;
+  const toast=document.createElement('div');
+  toast.id='timemark-toast';
+  toast.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:88%;max-width:340px;background:#161b22;border:1px solid rgba(210,153,34,0.5);border-radius:12px;padding:20px 18px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);';
+  toast.innerHTML=`
     <div style="font-size:28px;margin-bottom:10px;">📸</div>
-    <div style="font-size:15px;font-weight:600;color:#e6edf3;margin-bottom:6px;">
-      GPS xác định: ${pgdName}
-    </div>
-    <div style="font-size:13px;color:#d29922;font-weight:500;margin-bottom:10px;">
-      Bắt buộc chụp ảnh hiện trường ngay!
-    </div>
+    <div style="font-size:15px;font-weight:600;color:#e6edf3;margin-bottom:6px;">GPS xác định: ${pgdName}</div>
     <div style="font-size:12px;color:#8b949e;line-height:1.6;margin-bottom:16px;">
-      Hệ thống sẽ tự đóng <strong style="color:#e6edf3;">timemark + tọa độ GPS</strong> lên ảnh.<br>
-      Rời khỏi công trình rồi mới chụp → <span style="color:#f85149;">bị cảnh báo gian lận.</span>
+      Mở <strong style="color:#e6edf3;">Timemark</strong> → chụp ảnh hiện trường<br>
+      → Quay lại đây → chọn ảnh từ thư viện<br>
+      <span style="color:#f85149;">Chụp sai vị trí → bị cảnh báo gian lận</span>
     </div>
-    <button onclick="dismissToast()" style="
-      background:#3fb950;border:none;border-radius:8px;
-      color:#0d1117;font-size:13px;font-weight:600;
-      padding:10px 24px;cursor:pointer;width:100%;
-    ">Đã hiểu – Chụp ảnh ngay</button>
+    <button onclick="dismissToast()" style="background:#3fb950;border:none;border-radius:8px;color:#0d1117;font-size:13px;font-weight:600;padding:10px 24px;cursor:pointer;width:100%;">Đã hiểu – Chụp ảnh ngay</button>
   `;
   document.body.appendChild(toast);
-
-  // Kèm cảnh báo inline dưới ô ảnh
-  const warn = document.getElementById('photo-count-warn');
-  warn.innerHTML = `<span style="color:var(--warn);font-weight:500;">
-    ⚠ Chưa có ảnh – hãy chụp ảnh hiện trường có timemark trước khi gửi báo cáo!
-  </span>`;
-  warn.style.display = 'block';
 }
 
 function dismissToast() {
-  const t = document.getElementById('timemark-toast');
-  if (t) t.remove();
-  // Cuộn xuống phần ảnh
-  setTimeout(() => {
-    document.getElementById('photo-area')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 200);
+  const t=document.getElementById('timemark-toast');
+  if(t)t.remove();
+  setTimeout(()=>document.getElementById('photo-area')?.scrollIntoView({behavior:'smooth',block:'center'}),200);
 }
 
-// Ẩn cảnh báo inline khi đã có ảnh
-function updatePhotoWarn() {
-  const warn = document.getElementById('photo-count-warn');
-  if (!warn) return;
-  if (photos.length > 0) {
-    warn.style.display = 'none';
-  } else if (gpsZoneLocked) {
-    warn.style.display = 'block';
+// ── PILL TRẠNG THÁI ──────────────────────────────────────
+function setPill(el,colorClass) {
+  document.querySelectorAll('#status-pills .pill').forEach(p=>p.className='pill');
+  el.className=`pill sel-${colorClass}`;
+  selectedStatus=el.dataset.val;
+  const pi=document.getElementById('f-progress'),
+        pr=document.getElementById('progress-required'),
+        ph=document.getElementById('progress-hint');
+  if (selectedStatus==='done') {
+    pi.value='100';pi.readOnly=true;pi.style.opacity='0.6';
+    pr.style.display='none';
+    ph.textContent='Tự động 100% khi hoàn thành';ph.style.display='block';
+  } else if (selectedStatus==='inprogress') {
+    if(pi.value==='100')pi.value='';
+    pi.readOnly=false;pi.style.opacity='1';
+    pr.style.display='inline';
+    ph.textContent='Bắt buộc nhập % tiến độ';ph.style.color='var(--warn)';ph.style.display='block';
+    pi.focus();
+  } else {
+    pi.readOnly=false;pi.style.opacity='1';
+    pr.style.display='none';ph.style.display='none';
   }
 }
 
-// ── Thư viện đọc EXIF ───────────────────────────────────────
-// Load exif-js để đọc metadata ảnh
-const exifScript = document.createElement('script');
-exifScript.src = 'https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js';
-document.head.appendChild(exifScript);
+function clampProgress(el) {
+  const v=parseInt(el.value);
+  if(v>100)el.value=100;
+  if(v<0)el.value=0;
+}
 
-// Photos – mỗi phần tử: { name, data, exifTime, exifLat, exifLng, timemarked }
-let photos = [];
+// ── ĐỊA CHỈ PREVIEW ─────────────────────────────────────
+function updateAddrPreview() {
+  const parts=[
+    document.getElementById('f-addr-so').value.trim(),
+    document.getElementById('f-addr-duong').value.trim(),
+    document.getElementById('f-addr-phuong').value.trim(),
+    document.getElementById('f-addr-tp').value.trim(),
+  ].filter(Boolean);
+  const preview=document.getElementById('f-addr-preview');
+  if(parts.length>0){preview.textContent='📍 '+parts.join(', ');preview.style.display='block';}
+  else preview.style.display='none';
+}
+['f-addr-so','f-addr-duong','f-addr-phuong','f-addr-tp'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',updateAddrPreview);
+});
 
+function getFullAddress() {
+  return ['f-addr-so','f-addr-duong','f-addr-phuong','f-addr-tp']
+    .map(id=>document.getElementById(id).value.trim()).filter(Boolean).join(', ');
+}
+
+// ── XỬ LÝ ẢNH + EXIF ────────────────────────────────────
 function handlePhotos(e) {
-  const files = Array.from(e.target.files);
-  if (photos.length + files.length > 6) {
-    alert('Tối đa 6 ảnh');
-    return;
-  }
-  files.forEach(file => {
-    if (photos.length >= 6) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const originalData = ev.target.result;
-      // Đọc EXIF rồi overlay timemark
-      readExifAndMark(file, originalData).then(photoObj => {
-        photos.push(photoObj);
+  const files=Array.from(e.target.files);
+  if(photos.length+files.length>6){alert('Tối đa 6 ảnh');return;}
+  files.forEach(file=>{
+    if(photos.length>=6)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      readExifAndMark(file,ev.target.result).then(obj=>{
+        photos.push(obj);
         renderPreviews();
-        updatePhotoWarn();
+        document.getElementById('photo-count-warn').style.display='none';
       });
     };
     reader.readAsDataURL(file);
   });
 }
 
-// Đọc EXIF → overlay timemark → trả về photo object
-async function readExifAndMark(file, dataUrl) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      let exifTime = null, exifLat = null, exifLng = null;
-
-      // Đọc EXIF (chỉ hoạt động với Android/JPEG có GPS)
-      try {
-        if (window.EXIF) {
-          EXIF.getData(img, function() {
-            const dt  = EXIF.getTag(this, 'DateTimeOriginal');
-            const lat = EXIF.getTag(this, 'GPSLatitude');
-            const latR= EXIF.getTag(this, 'GPSLatitudeRef');
-            const lng = EXIF.getTag(this, 'GPSLongitude');
-            const lngR= EXIF.getTag(this, 'GPSLongitudeRef');
-
-            if (dt) exifTime = dt; // "2025:01:15 09:30:00"
-            if (lat && lng) {
-              exifLat = dmsToDecimal(lat, latR);
-              exifLng = dmsToDecimal(lng, lngR);
-            }
-
-            const marked = drawTimemark(img, exifTime, exifLat, exifLng);
-            resolve({ name: file.name, data: marked, exifTime, exifLat, exifLng, timemarked: true });
+async function readExifAndMark(file,dataUrl) {
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      let exifTime=null,exifLat=null,exifLng=null;
+      const finish=()=>{
+        const marked=drawTimemark(img,exifTime,exifLat,exifLng);
+        resolve({name:file.name,data:marked,exifTime,exifLat,exifLng});
+      };
+      if(window.EXIF){
+        try{
+          EXIF.getData(img,function(){
+            const dt=EXIF.getTag(this,'DateTimeOriginal');
+            const lat=EXIF.getTag(this,'GPSLatitude');
+            const latR=EXIF.getTag(this,'GPSLatitudeRef');
+            const lng=EXIF.getTag(this,'GPSLongitude');
+            const lngR=EXIF.getTag(this,'GPSLongitudeRef');
+            if(dt)exifTime=dt;
+            if(lat&&lng){exifLat=dms2dec(lat,latR);exifLng=dms2dec(lng,lngR);}
+            finish();
           });
-        } else {
-          throw new Error('EXIF not loaded');
-        }
-      } catch(err) {
-        // EXIF không đọc được → vẫn overlay timemark với thông tin GPS form
-        const marked = drawTimemark(img, null, null, null);
-        resolve({ name: file.name, data: marked, exifTime: null, exifLat: null, exifLng: null, timemarked: true });
-      }
+        }catch{finish();}
+      }else{finish();}
     };
-    img.src = dataUrl;
+    img.src=dataUrl;
   });
 }
 
-// Chuyển DMS → Decimal degrees
-function dmsToDecimal(dms, ref) {
-  if (!dms || dms.length < 3) return null;
-  const d = dms[0] + dms[1]/60 + dms[2]/3600;
-  return (ref === 'S' || ref === 'W') ? -d : d;
+function dms2dec(dms,ref){
+  if(!dms||dms.length<3)return null;
+  const d=dms[0]+dms[1]/60+dms[2]/3600;
+  return(ref==='S'||ref==='W')?-d:d;
 }
 
-// Vẽ timemark lên ảnh bằng Canvas
-function drawTimemark(img, exifTime, exifLat, exifLng) {
-  const canvas = document.createElement('canvas');
-  const MAX = 1200;
-  let w = img.naturalWidth, h = img.naturalHeight;
-  if (w > MAX || h > MAX) {
-    if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-    else        { w = Math.round(w * MAX / h); h = MAX; }
-  }
-  canvas.width = w; canvas.height = h;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, w, h);
-
-  // Thông tin hiển thị
-  const now    = new Date();
-  const timeStr= now.toLocaleString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const gpsStr = gpsData
-    ? `GPS: ${gpsData.lat.toFixed(5)}, ${gpsData.lng.toFixed(5)} ±${Math.round(gpsData.accuracy)}m`
-    : 'GPS: Không có';
-  const exifStr= exifTime ? `Chụp: ${exifTime.replace(/:/g, '-').replace('-', ':').replace('-', ':')}` : '';
-
-  // Nền mờ phía dưới
-  const barH = exifStr ? 80 : 60;
-  ctx.fillStyle = 'rgba(0,0,0,0.65)';
-  ctx.fillRect(0, h - barH, w, barH);
-
-  // Text
-  ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${Math.max(12, Math.round(w/40))}px monospace`;
-  ctx.fillText(timeStr, 10, h - barH + 20);
-
-  ctx.font = `${Math.max(10, Math.round(w/48))}px monospace`;
-  ctx.fillStyle = '#7dd3fc';
-  ctx.fillText(gpsStr, 10, h - barH + 40);
-
-  if (exifStr) {
-    ctx.fillStyle = '#86efac';
-    ctx.fillText(exifStr, 10, h - barH + 58);
-  }
-
-  // Badge góc trên phải
-  ctx.fillStyle = 'rgba(0,0,0,0.6)';
-  ctx.fillRect(w - 90, 8, 82, 22);
-  ctx.fillStyle = '#fde047';
-  ctx.font = `bold ${Math.max(9, Math.round(w/52))}px monospace`;
-  ctx.fillText('VTel Field', w - 86, 23);
-
-  return canvas.toDataURL('image/jpeg', 0.85);
+function drawTimemark(img,exifTime,exifLat,exifLng){
+  const canvas=document.createElement('canvas');
+  const MAX=1200;let w=img.naturalWidth,h=img.naturalHeight;
+  if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+  canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(img,0,0,w,h);
+  const now=new Date();
+  const timeStr=now.toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const gpsStr=gpsData?`GPS:${gpsData.lat.toFixed(5)},${gpsData.lng.toFixed(5)} ±${Math.round(gpsData.accuracy)}m`:'GPS:N/A';
+  const exifStr=exifTime?`EXIF:${exifTime.substring(0,10).replace(/:/g,'-')} ${exifTime.substring(11)}`:'';
+  const fs=Math.max(12,Math.round(w/40));
+  const barH=exifStr?85:65;
+  ctx.fillStyle='rgba(0,0,0,0.68)';ctx.fillRect(0,h-barH,w,barH);
+  ctx.fillStyle='#fff';ctx.font=`bold ${fs}px monospace`;ctx.fillText(timeStr,10,h-barH+fs+2);
+  ctx.fillStyle='#7dd3fc';ctx.font=`${Math.max(10,Math.round(w/48))}px monospace`;ctx.fillText(gpsStr,10,h-barH+fs*2+6);
+  if(exifStr){ctx.fillStyle='#86efac';ctx.fillText(exifStr,10,h-barH+fs*3+10);}
+  ctx.fillStyle='rgba(0,0,0,0.65)';ctx.fillRect(w-96,6,90,24);
+  ctx.fillStyle='#fde047';ctx.font=`bold ${Math.max(9,Math.round(w/52))}px monospace`;ctx.fillText('VTel Field',w-92,22);
+  return canvas.toDataURL('image/jpeg',0.85);
 }
 
-function renderPreviews() {
-  const wrap = document.getElementById('photo-previews');
-  wrap.innerHTML = photos.map((p, i) => `
+function renderPreviews(){
+  const wrap=document.getElementById('photo-previews');
+  wrap.innerHTML=photos.map((p,i)=>`
     <div class="photo-thumb">
-      <img src="${p.data}" alt="Ảnh ${i+1}" />
+      <img src="${p.data}" alt="Ảnh ${i+1}"/>
       ${p.exifLat
-        ? `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(63,185,80,0.85);font-size:9px;color:#fff;padding:2px 4px;text-align:center;">GPS ✓</div>`
-        : `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(210,153,34,0.85);font-size:9px;color:#fff;padding:2px 4px;text-align:center;">No GPS EXIF</div>`}
+        ?`<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(63,185,80,0.85);font-size:9px;color:#fff;padding:2px 4px;text-align:center;">GPS ✓</div>`
+        :`<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(210,153,34,0.85);font-size:9px;color:#fff;padding:2px 4px;text-align:center;">No GPS EXIF</div>`}
       <button class="del-btn" onclick="removePhoto(${i})">✕</button>
-    </div>
-  `).join('');
-  document.getElementById('photo-area').style.display = photos.length >= 6 ? 'none' : '';
-  // Ẩn nhắc nhở timemark khi đã có ảnh
-  if (photos.length > 0) {
-    const w = document.getElementById('photo-count-warn');
-    if (w && w.innerHTML.includes('Nhắc nhở')) w.style.display = 'none';
-  }
+    </div>`).join('');
+  document.getElementById('photo-area').style.display=photos.length>=6?'none':'';
 }
 
-function removePhoto(i) {
-  photos.splice(i, 1);
-  renderPreviews();
-  updatePhotoWarn();
-}
+function removePhoto(i){photos.splice(i,1);renderPreviews();}
 
-// Submit
-async function submitReport() {
-  const name     = document.getElementById('f-name').value;
-  const chinhanh = document.getElementById('f-chinhanh').value;
-  const pgd      = document.getElementById('f-pgd').value;
-  const jobtype  = document.getElementById('f-jobtype').value;
-  const notes    = document.getElementById('f-notes').value.trim();
+// ── SUBMIT ───────────────────────────────────────────────
+async function submitReport(){
+  const name    =document.getElementById('f-name').value;
+  const chinhanh=document.getElementById('f-chinhanh').value;
+  const pgd     =document.getElementById('f-pgd').value;
+  const jobtype =document.getElementById('f-jobtype').value;
+  const notes   =document.getElementById('f-notes').value.trim();
+  const fullAddr=getFullAddress();
 
-  if (!chinhanh) { alert('Vui lòng chọn Chi nhánh'); return; }
-  if (!pgd)      { alert('Vui lòng chọn Phòng giao dịch'); return; }
-  if (!name)     { alert('Vui lòng chọn Nhân viên'); return; }
-  if (!jobtype)  { alert('Vui lòng chọn loại công việc'); return; }
-  if (!selectedStatus) { alert('Vui lòng chọn trạng thái công việc'); return; }
-  if (selectedStatus === 'inprogress' && !document.getElementById('f-progress').value) {
+  if(!chinhanh){alert('Vui lòng chọn Chi nhánh');return;}
+  if(!pgd)     {alert('Vui lòng chọn Phòng giao dịch');return;}
+  if(!name)    {alert('Vui lòng chọn Nhân viên');return;}
+  if(!jobtype) {alert('Vui lòng chọn loại công việc');return;}
+  if(!selectedStatus){alert('Vui lòng chọn trạng thái');return;}
+  if(selectedStatus==='inprogress'&&!document.getElementById('f-progress').value){
     alert('Vui lòng nhập % tiến độ khi trạng thái là "Đang thực hiện"');
-    document.getElementById('f-progress').focus();
-    return;
+    document.getElementById('f-progress').focus();return;
   }
-  if (!notes) { alert('Vui lòng nhập ghi chú công việc'); return; }
-  if (photos.length === 0) {
-    alert('Bắt buộc phải chụp ít nhất 1 ảnh hiện trường có timemark!');
-    document.getElementById('photo-area').scrollIntoView({ behavior: 'smooth' });
-    return;
+  if(!notes)   {alert('Vui lòng nhập ghi chú công việc');return;}
+  if(!fullAddr){alert('Vui lòng nhập địa chỉ công trình');return;}
+  if(photos.length===0){
+    alert('Bắt buộc phải có ít nhất 1 ảnh hiện trường từ app Timemark!');
+    document.getElementById('photo-area').scrollIntoView({behavior:'smooth'});return;
   }
 
-  const fullAddr = getFullAddress();
-  if (!fullAddr) { alert('Vui lòng nhập địa chỉ công trình'); return; }
+  const ref='RPT-'+Date.now().toString(36).toUpperCase();
+  const exifMeta=photos.map((p,i)=>({index:i+1,exifTime:p.exifTime||null,exifLat:p.exifLat||null,exifLng:p.exifLng||null}));
 
-  const ref = 'RPT-' + Date.now().toString(36).toUpperCase();
-
-  // Thu thập metadata EXIF từ tất cả ảnh để xác minh tính trung thực
-  const exifMeta = photos.map((p, i) => ({
-    index:   i + 1,
-    exifTime: p.exifTime || null,
-    exifLat:  p.exifLat  || null,
-    exifLng:  p.exifLng  || null,
-  }));
-
-  const report = {
-    action:    'submitReport',
-    ref:       ref,
-    timestamp: new Date().toLocaleString('vi-VN'),
-    employee:  { name, chinhanh, pgd },
-    location: {
-      address:     fullAddr,
-      addr_so:     document.getElementById('f-addr-so').value.trim(),
-      addr_duong:  document.getElementById('f-addr-duong').value.trim(),
-      addr_phuong: document.getElementById('f-addr-phuong').value.trim(),
-      addr_tp:     document.getElementById('f-addr-tp').value.trim(),
-      gps: gpsData,
+  const report={
+    action:'submitReport',ref,
+    timestamp:new Date().toLocaleString('vi-VN'),
+    employee:{name,chinhanh,pgd},
+    location:{
+      address:fullAddr,
+      addr_so:    document.getElementById('f-addr-so').value.trim(),
+      addr_duong: document.getElementById('f-addr-duong').value.trim(),
+      addr_phuong:document.getElementById('f-addr-phuong').value.trim(),
+      addr_tp:    document.getElementById('f-addr-tp').value.trim(),
+      gps:gpsData,
     },
-    job: {
-      type:     jobtype,
-      status:   selectedStatus,
-      progress: document.getElementById('f-progress').value || '',
-      eta:      document.getElementById('f-eta').value.trim(),
-      notes,
-    },
-    photos:   photos.length,
-    exifMeta: exifMeta,
+    job:{type:jobtype,status:selectedStatus,progress:document.getElementById('f-progress').value||'',eta:document.getElementById('f-eta').value.trim(),notes},
+    photos:photos.length,exifMeta,
   };
 
-  // Chế độ offline
-  if (!SHEET_URL || SHEET_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
-    console.log('OFFLINE mode:', report);
-    showSuccess(report);
-    return;
+  if(!SHEET_URL||SHEET_URL==='PASTE_YOUR_APPS_SCRIPT_URL_HERE'){
+    console.log('OFFLINE:',report);showSuccess(report);return;
   }
 
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  const setStatus = (msg) => {
-    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M9 2a7 7 0 017 7" stroke-linecap="round"/></svg> ${msg}`;
-  };
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;
+  const setStatus=msg=>btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M9 2a7 7 0 017 7" stroke-linecap="round"/></svg> ${msg}`;
 
-  try {
-    // ── Bước 1: Gửi dữ liệu báo cáo (nhỏ, chắc chắn ghi được) ──
+  try{
     setStatus('Đang gửi báo cáo...');
-    await postJSON(SHEET_URL, report);
-
-    // ── Bước 2: Upload từng ảnh riêng (nếu có) ──────────────────
-    if (photos.length > 0) {
+    await postJSON(SHEET_URL,report);
+    if(photos.length>0){
       setStatus(`Đang tải ${photos.length} ảnh lên Drive...`);
-      // Nén ảnh trước khi gửi, gửi từng cái một
-      const compressedPhotos = await compressPhotos(photos);
-      await postJSON(SHEET_URL, {
-        action:       'uploadPhotos',
-        ref:          ref,
-        employeeName: name,
-        employeePGD:  pgd,
-        photos_data:  compressedPhotos,
-      });
+      const compressed=await compressPhotos(photos);
+      await postJSON(SHEET_URL,{action:'uploadPhotos',ref,employeeName:name,employeePGD:pgd,photos_data:compressed});
     }
-
     showSuccess(report);
-
-  } catch (err) {
-    alert('❌ Lỗi: ' + err.message + '\n\nVui lòng kiểm tra kết nối và thử lại.');
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l5 5 9-9" stroke-linecap="round" stroke-linejoin="round"/></svg> Gửi báo cáo hiện trường`;
+  }catch(err){
+    alert('❌ Lỗi: '+err.message);
+    btn.disabled=false;
+    btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l5 5 9-9" stroke-linecap="round" stroke-linejoin="round"/></svg> Gửi báo cáo hiện trường`;
   }
 }
 
-// Gửi JSON – dùng fetch với mode no-cors (Apps Script yêu cầu)
-// Dữ liệu vẫn ghi được dù không đọc được response
-async function postJSON(url, payload) {
-  await fetch(url, {
-    method:  'POST',
-    mode:    'no-cors',  // bắt buộc với Apps Script
-    headers: { 'Content-Type': 'text/plain' }, // text/plain tránh preflight CORS
-    body:    JSON.stringify(payload),
-  });
-  // no-cors: không đọc được response nhưng Apps Script vẫn nhận và xử lý đủ
+async function postJSON(url,payload){
+  await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});
 }
 
-// Nén ảnh xuống tối đa 800px và chất lượng 70% trước khi gửi
-async function compressPhotos(photoList) {
-  const maxSize = 800;
-  const quality = 0.7;
-  const results = [];
-
-  for (const photo of photoList) {
-    try {
-      const compressed = await new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let w = img.width, h = img.height;
-          if (w > maxSize || h > maxSize) {
-            if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
-            else        { w = Math.round(w * maxSize / h); h = maxSize; }
-          }
-          canvas.width = w; canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          resolve({ name: photo.name, data: canvas.toDataURL('image/jpeg', quality) });
+async function compressPhotos(list){
+  const results=[];
+  for(const p of list){
+    try{
+      const c=await new Promise(resolve=>{
+        const img=new Image();
+        img.onload=()=>{
+          const canvas=document.createElement('canvas');
+          let w=img.width,h=img.height,MAX=800;
+          if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+          canvas.width=w;canvas.height=h;
+          canvas.getContext('2d').drawImage(img,0,0,w,h);
+          resolve({name:p.name,data:canvas.toDataURL('image/jpeg',0.7)});
         };
-        img.src = photo.data;
+        img.src=p.data;
       });
-      results.push(compressed);
-    } catch(e) {
-      results.push(photo); // fallback: gửi ảnh gốc nếu lỗi nén
-    }
+      results.push(c);
+    }catch{results.push(p);}
   }
   return results;
 }
 
-function showSuccess(report) {
-  document.getElementById('form-wrap').style.display = 'none';
-  const ss = document.getElementById('success-screen');
-  ss.classList.add('show');
-  document.getElementById('success-ref').textContent = report.ref;
-  const photoNote = report.photos > 0
-    ? `📷 ${report.photos} ảnh đã tải lên Google Drive`
-    : 'Không có ảnh đính kèm';
-  document.getElementById('success-summary').innerHTML =
-    `<strong>${report.employee.name}</strong><br>` +
-    `${report.employee.chinhanh} · ${report.employee.pgd}<br>` +
-    `${report.job.type}<br>` +
-    (report.location.gps ? `GPS: ${report.location.gps.lat.toFixed(5)}, ${report.location.gps.lng.toFixed(5)}<br>` : '') +
-    photoNote;
-  window.scrollTo(0, 0);
+function showSuccess(report){
+  document.getElementById('form-wrap').style.display='none';
+  document.getElementById('success-screen').classList.add('show');
+  document.getElementById('success-ref').textContent=report.ref;
+  document.getElementById('success-summary').innerHTML=
+    `<strong>${report.employee.name}</strong><br>`+
+    `${report.employee.chinhanh} · ${report.employee.pgd}<br>`+
+    `${report.job.type}<br>`+
+    (report.location.gps?`GPS:${report.location.gps.lat.toFixed(5)},${report.location.gps.lng.toFixed(5)}<br>`:'')  +
+    `📷 ${report.photos} ảnh đã gửi`;
+  window.scrollTo(0,0);
 }
 
-function resetForm() {
-  document.getElementById('form-wrap').style.display = '';
+function resetForm(){
+  document.getElementById('form-wrap').style.display='';
   document.getElementById('success-screen').classList.remove('show');
-  // Mở khóa lại dropdown (có thể đã bị khóa bởi GPS zone)
-  gpsZoneLocked = false;
-  const selCN = document.getElementById('f-chinhanh');
-  selCN.innerHTML = '<option value="">-- Chọn chi nhánh --</option>';
-  Object.keys(sheetData.branches || {}).forEach(cn => {
-    selCN.innerHTML += `<option value="${cn}">${cn}</option>`;
-  });
-  selCN.disabled = false;
-  document.getElementById('f-pgd').innerHTML  = '<option value="">-- Chọn chi nhánh trước --</option>';
-  document.getElementById('f-pgd').disabled   = true;
-  document.getElementById('f-name').innerHTML = '<option value="">-- Chọn phòng GD trước --</option>';
-  document.getElementById('f-name').disabled  = true;
-  document.getElementById('f-addr-so').value     = '';
-  document.getElementById('f-addr-duong').value  = '';
-  document.getElementById('f-addr-phuong').value = '';
-  document.getElementById('f-addr-tp').value     = '';
-  document.getElementById('f-addr-preview').style.display = 'none';
-  document.getElementById('f-progress').value    = '';
-  document.getElementById('f-progress').readOnly = false;
-  document.getElementById('f-progress').style.opacity = '1';
-  document.getElementById('progress-required').style.display = 'none';
-  document.getElementById('progress-hint').style.display = 'none';
-  document.getElementById('gps-zone-hint').style.display  = 'none';
-  document.getElementById('f-eta').value = '';
-  document.getElementById('f-notes').value = '';
-  document.querySelectorAll('#status-pills .pill').forEach(p => p.className = 'pill');
-  selectedStatus = '';
-  photos = [];
-  renderPreviews();
-  gpsData = null;
-  document.getElementById('gf-lat').textContent = '—';
-  document.getElementById('gf-lng').textContent = '—';
-  document.getElementById('gf-acc').textContent = '—';
-  document.getElementById('gf-time').textContent = '—';
-  document.getElementById('gps-dot').className = 'gps-status-dot';
-  document.getElementById('gps-status-text').textContent = 'Chưa lấy vị trí';
-  document.getElementById('gf-status').textContent = 'Chưa định vị';
-  document.getElementById('gf-status').style.color = 'var(--text-muted)';
-  document.getElementById('gps-warn').style.display = 'none';
-  window.scrollTo(0, 0);
-  setTimeout(getGPS, 300);
+  gpsZoneLocked=false;pendingZone=null;gpsData=null;
+  applySheetData();
+  document.getElementById('f-pgd').innerHTML='<option value="">-- Chọn chi nhánh trước --</option>';
+  document.getElementById('f-pgd').disabled=true;
+  document.getElementById('f-name').innerHTML='<option value="">-- Chọn phòng GD trước --</option>';
+  document.getElementById('f-name').disabled=true;
+  document.getElementById('f-jobtype').value='';
+  ['f-addr-so','f-addr-duong','f-addr-phuong','f-addr-tp'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-addr-preview').style.display='none';
+  document.getElementById('f-progress').value='';
+  document.getElementById('f-progress').readOnly=false;
+  document.getElementById('f-progress').style.opacity='1';
+  document.getElementById('progress-required').style.display='none';
+  document.getElementById('progress-hint').style.display='none';
+  document.getElementById('f-eta').value='';
+  document.getElementById('f-notes').value='';
+  document.querySelectorAll('#status-pills .pill').forEach(p=>p.className='pill');
+  selectedStatus='';
+  photos=[];renderPreviews();
+  document.getElementById('gps-zone-hint').style.display='none';
+  document.getElementById('gf-lat').textContent='—';
+  document.getElementById('gf-lng').textContent='—';
+  document.getElementById('gf-acc').textContent='—';
+  document.getElementById('gf-time').textContent='—';
+  document.getElementById('gf-status').textContent='Chưa định vị';
+  document.getElementById('gf-status').style.color='var(--text-muted)';
+  document.getElementById('gps-dot').className='gps-status-dot';
+  document.getElementById('gps-status-text').textContent='Chưa lấy vị trí';
+  document.getElementById('gps-warn').style.display='none';
+  document.getElementById('photo-count-warn').style.display='none';
+  window.scrollTo(0,0);
+  setTimeout(getGPS,300);
 }
+
+// ── KHỞI ĐỘNG ────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  loadSheetData();
+  setTimeout(getGPS,800);
+});
 </script>
 </body>
 </html>
