@@ -515,14 +515,20 @@
     </div>
     <div class="section-body">
       <div class="alert warn" id="photo-timemark-alert">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 100-2 1 1 0 000 2z"/></svg>
-        <div><strong>Yêu cầu chụp ảnh có timemark!</strong> Hệ thống sẽ tự động đóng dấu thời gian + GPS lên ảnh. Chụp trực tiếp bằng camera, không dùng ảnh từ thư viện cũ.</div>
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;margin-top:2px;"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 100-2 1 1 0 000 2z"/></svg>
+        <div style="line-height:1.7;">
+          <strong>Quy trình chụp ảnh bắt buộc:</strong><br>
+          1. Mở app <strong>Timemark</strong> trên điện thoại → chụp ảnh hiện trường<br>
+          2. Ảnh Timemark tự gắn <strong>thời gian + tọa độ GPS</strong> lên ảnh<br>
+          3. Quay lại đây → nhấn nút bên dưới → chọn ảnh vừa chụp từ thư viện<br>
+          <span style="color:var(--danger);font-size:11px;">⛔ Ảnh không có timemark hoặc chụp sai vị trí → bị cảnh báo gian lận</span>
+        </div>
       </div>
       <div class="photo-area" id="photo-area">
-        <input type="file" accept="image/*" multiple capture="environment" onchange="handlePhotos(event)" />
+        <input type="file" accept="image/*" multiple onchange="handlePhotos(event)" />
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7l-2-4H10L8 7"/><circle cx="12" cy="14" r="3"/></svg>
-        <div class="pa-label">Chụp ảnh tại hiện trường <span style="color:var(--danger);">*</span></div>
-        <div class="pa-sub">Tối đa 6 ảnh · Tự động đóng timemark</div>
+        <div class="pa-label">Chọn ảnh từ Timemark <span style="color:var(--danger);">*</span></div>
+        <div class="pa-sub">Tối đa 6 ảnh · Phải là ảnh chụp từ app Timemark</div>
       </div>
       <div id="photo-count-warn" style="display:none;font-size:12px;color:var(--danger);padding:6px 0;"></div>
       <div class="photo-previews" id="photo-previews"></div>
@@ -558,8 +564,8 @@
 // ============================================================
 //  CẤU HÌNH – chỉ cần điền 2 dòng này
 // ============================================================
-const SHEET_URL   = 'https://script.google.com/macros/s/AKfycbxecy6hbU24Z8GJ552H5SvBOzTREn9CJ6UrZjs2ptF5e5Rjnp_iKJ289uqGXFRqKQ6g/exec'; // URL gửi báo cáo
-const DATA_URL    = 'https://script.google.com/macros/s/AKfycbxecy6hbU24Z8GJ552H5SvBOzTREn9CJ6UrZjs2ptF5e5Rjnp_iKJ289uqGXFRqKQ6g/exec';  // URL đọc danh sách
+const SHEET_URL   = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec'; // URL gửi báo cáo
+const DATA_URL    = 'https://script.google.com/macros/s/AKfycbz5gCUncsFRBsTny7T7Hhk8i90jAlu1JNSfWsrpjs1dkK8av_UAbLbtqm2hLOi6aoXQ/exec';  // URL đọc danh sách
 // ============================================================
 
 // Dữ liệu tải từ Sheets
@@ -860,76 +866,93 @@ function getFullAddress() {
 
 // GPS zone detection – tự khớp PGD theo vị trí GPS
 // Bảng tọa độ trung tâm từng PGD (lat, lng, radius km)
-const PGD_ZONES = [
-  { pgd: 'Đà Nẵng',    chinhanh: 'Đà Nẵng',    lat: 16.0544, lng: 108.2022, r: 30 },
-  { pgd: 'Quảng Nam',  chinhanh: 'Đà Nẵng',    lat: 15.5394, lng: 108.0191, r: 40 },
-  { pgd: 'Huế',        chinhanh: 'Huế',         lat: 16.4637, lng: 107.5909, r: 35 },
-  { pgd: 'Quảng Trị',  chinhanh: 'Quảng Trị',  lat: 16.7492, lng: 107.1900, r: 35 },
-  { pgd: 'Quảng Bình', chinhanh: 'Quảng Trị',  lat: 17.4689, lng: 106.6220, r: 45 },
-  { pgd: 'Quảng Ngãi', chinhanh: 'Quảng Ngãi', lat: 15.1214, lng: 108.8054, r: 40 },
-  { pgd: 'KonTum',     chinhanh: 'Quảng Ngãi', lat: 14.3497, lng: 108.0005, r: 50 },
+// Bảng khớp tên tỉnh/thành phố với Chi nhánh và PGD
+const ZONE_MAP = [
+  { keywords: ['đà nẵng', 'da nang'],                              chinhanh: 'Đà Nẵng',    pgd: 'Đà Nẵng'    },
+  { keywords: ['quảng nam', 'quang nam', 'hội an', 'hoi an', 'tam kỳ'], chinhanh: 'Đà Nẵng', pgd: 'Quảng Nam' },
+  { keywords: ['thừa thiên', 'thua thien', 'huế', 'hue'],          chinhanh: 'Huế',         pgd: 'Huế'        },
+  { keywords: ['quảng trị', 'quang tri', 'đông hà', 'dong ha'],    chinhanh: 'Quảng Trị',  pgd: 'Quảng Trị'  },
+  { keywords: ['quảng bình', 'quang binh', 'đồng hới', 'dong hoi'],chinhanh: 'Quảng Trị',  pgd: 'Quảng Bình' },
+  { keywords: ['quảng ngãi', 'quang ngai'],                        chinhanh: 'Quảng Ngãi', pgd: 'Quảng Ngãi' },
+  { keywords: ['kon tum', 'kontum', 'kon_tum'],                    chinhanh: 'Quảng Ngãi', pgd: 'KonTum'     },
 ];
 
-function detectZoneFromGPS(lat, lng) {
-  let best = null, bestDist = Infinity;
-  PGD_ZONES.forEach(z => {
-    const d = haversineKm(lat, lng, z.lat, z.lng);
-    if (d < z.r && d < bestDist) { best = z; bestDist = d; }
-  });
-  return best;
+function matchZoneFromText(text) {
+  const lower = (text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  for (const z of ZONE_MAP) {
+    if (z.keywords.some(kw => {
+      const kwNorm = kw.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return lower.includes(kwNorm);
+    })) return z;
+  }
+  return null;
 }
 
-function haversineKm(lat1, lng1, lat2, lng2) {
-  const R = 6371, p1 = lat1*Math.PI/180, p2 = lat2*Math.PI/180;
-  const dp = (lat2-lat1)*Math.PI/180, dl = (lng2-lng1)*Math.PI/180;
-  const a = Math.sin(dp/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
+let gpsZoneLocked = false;
 
-let gpsZoneLocked = false; // true khi đã khóa theo GPS
-
-function autoSelectZone(lat, lng) {
+async function autoSelectZone(lat, lng) {
   if (!sheetData.branches || Object.keys(sheetData.branches).length === 0) return;
-  const zone = detectZoneFromGPS(lat, lng);
 
+  const hint = document.getElementById('gps-zone-hint');
+  hint.textContent = '⟳ Đang xác định khu vực...';
+  hint.style.color = 'var(--text-muted)';
+  hint.style.display = 'inline';
+
+  try {
+    // Reverse geocode: lấy địa chỉ từ tọa độ GPS
+    const res  = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=vi`,
+      { headers: { 'Accept-Language': 'vi' } }
+    );
+    const data = await res.json();
+    const fullAddr = data.display_name || '';
+    // Ưu tiên dùng state (tỉnh/thành phố) từ address object
+    const stateText = (data.address?.state || '') + ' ' + (data.address?.city || '') + ' ' + fullAddr;
+
+    const zone = matchZoneFromText(stateText);
+
+    if (!zone) {
+      hint.textContent = '⚠ Ngoài vùng phục vụ – chọn thủ công';
+      hint.style.color = 'var(--warn)';
+      gpsZoneLocked = false;
+      // Cho phép chọn thủ công
+      document.getElementById('f-chinhanh').disabled = false;
+      return;
+    }
+
+    applyZone(zone);
+    hint.innerHTML = `● Khu vực: <strong>${zone.pgd}</strong> (đã khóa theo GPS)`;
+    hint.style.color = 'var(--accent)';
+
+  } catch(e) {
+    hint.textContent = '⚠ Lỗi xác định khu vực – chọn thủ công';
+    hint.style.color = 'var(--warn)';
+    gpsZoneLocked = false;
+  }
+}
+
+function applyZone(zone) {
   const selCN  = document.getElementById('f-chinhanh');
   const selPGD = document.getElementById('f-pgd');
   const selNV  = document.getElementById('f-name');
-  const hint   = document.getElementById('gps-zone-hint');
 
-  if (!zone) {
-    // Không nhận ra khu vực → cho chọn thủ công
-    selCN.disabled  = false;
-    selPGD.disabled = false;
-    hint.textContent = '⚠ Không nhận diện khu vực – chọn thủ công';
-    hint.style.color = 'var(--warn)';
-    hint.style.display = 'inline';
-    gpsZoneLocked = false;
-    return;
-  }
-
-  // ── Khóa Chi nhánh – chỉ hiện đúng chi nhánh của khu vực ──
+  // Khóa Chi nhánh – chỉ hiện chi nhánh đúng
   selCN.innerHTML = `<option value="${zone.chinhanh}">${zone.chinhanh}</option>`;
   selCN.value     = zone.chinhanh;
   selCN.disabled  = true;
 
-  // ── Khóa PGD – chỉ hiện đúng 1 PGD của khu vực ──
+  // Khóa PGD – chỉ hiện PGD đúng
   selPGD.innerHTML = `<option value="${zone.pgd}">${zone.pgd}</option>`;
   selPGD.value     = zone.pgd;
   selPGD.disabled  = true;
 
-  // ── Điền nhân viên của PGD đó ──
+  // Điền nhân viên của PGD đó
   selNV.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
   const nvs = sheetData.employees[zone.pgd] || [];
   nvs.forEach(n => selNV.innerHTML += `<option value="${n}">${n}</option>`);
   selNV.disabled = (nvs.length === 0);
 
-  hint.innerHTML  = `● GPS xác định: <strong>${zone.pgd}</strong> · đã khóa`;
-  hint.style.color   = 'var(--accent)';
-  hint.style.display = 'inline';
   gpsZoneLocked = true;
-
-  // ── Nhắc chụp ảnh timemark ngay khi xác định vị trí ──
   showTimemarkReminder(zone.pgd);
 }
 
