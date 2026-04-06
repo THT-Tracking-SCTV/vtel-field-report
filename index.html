@@ -279,8 +279,8 @@
 // ============================================================
 //  CẤU HÌNH
 // ============================================================
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzCeJXDlnHF5buV76nAa5pCV44L0Kc8wHAoqDiYJKknIc86Hvbwzva3tFCaqPEGncNn/exec';
-const DATA_URL  = 'https://script.google.com/macros/s/AKfycbzCeJXDlnHF5buV76nAa5pCV44L0Kc8wHAoqDiYJKknIc86Hvbwzva3tFCaqPEGncNn/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxRSNOes0mV5_--4hcYR7X7mT8EPEWBAAl_LDxdTC9x54G7yjs1xT-SsYnQmKy479XZ/exec';
+const DATA_URL  = 'https://script.google.com/macros/s/AKfycbxRSNOes0mV5_--4hcYR7X7mT8EPEWBAAl_LDxdTC9x54G7yjs1xT-SsYnQmKy479XZ/exec';
 
 // ── BIẾN GLOBAL (khai báo trước tất cả) ──────────────────
 let gpsData       = null;
@@ -293,32 +293,15 @@ let pendingZone   = null; // zone chờ apply khi sheetData load xong
 
 const GPS_MAX_ACCURACY = 50;
 
-// ── BẢNG ZONE – khớp từ khóa tỉnh/thành với PGD ─────────
-// Thêm tỉnh/thành mới vào đây khi mở rộng
-const ZONE_MAP = [
-  { keywords:['đà nẵng','da nang'],                                chinhanh:'Đà Nẵng',    pgd:'Đà Nẵng'    },
-  { keywords:['quảng nam','quang nam','hội an','tam kỳ'],           chinhanh:'Đà Nẵng',    pgd:'Quảng Nam'  },
-  { keywords:['thừa thiên','thua thien','huế','thua thien hue'],    chinhanh:'Huế',         pgd:'Huế'        },
-  { keywords:['quảng trị','quang tri','đông hà'],                   chinhanh:'Quảng Trị',  pgd:'Quảng Trị'  },
-  { keywords:['quảng bình','quang binh','đồng hới'],                chinhanh:'Quảng Trị',  pgd:'Quảng Bình' },
-  { keywords:['quảng ngãi','quang ngai'],                          chinhanh:'Quảng Ngãi', pgd:'Quảng Ngãi' },
-  { keywords:['kon tum','kontum','kon_tum'],                        chinhanh:'Quảng Ngãi', pgd:'KonTum'     },
-  // --- Thêm tỉnh/thành mới bên dưới ---
-];
+// ── BẢNG ZONE – tải từ Sheet, không hardcode ─────────────
+// zones = [ { kvtt: 'Đà Nẵng', chinhanh: 'Đà Nẵng', pgd: 'Đà Nẵng' }, ... ]
+// Được điền bởi loadSheetData() khi tải xong
 
 // Chuẩn hoá tiếng Việt có dấu → không dấu để so sánh
 function norm(s) {
   return (s||'').toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/đ/g,'d');
-}
-
-function matchZone(text) {
-  const t = norm(text);
-  for (const z of ZONE_MAP) {
-    if (z.keywords.some(kw => t.includes(norm(kw)))) return z;
-  }
-  return null;
+    .replace(/đ/g,'d').replace(/\s+/g,' ').trim();
 }
 
 // ── CLOCK ────────────────────────────────────────────────
@@ -336,8 +319,11 @@ async function loadSheetData() {
     badge.textContent = '⟳ Đang tải...';
     const res  = await fetch(DATA_URL + '?action=getData');
     const json = await res.json();
-    if (json.branches) sheetData = json;
-    else throw new Error('Dữ liệu không hợp lệ');
+    if (json.branches) {
+      sheetData = json;
+      // zones được trả về từ Apps Script (từ cột Khu vực/Tỉnh thành)
+      sheetData.zones = json.zones || [];
+    } else throw new Error('Dữ liệu không hợp lệ');
     applySheetData();
     badge.textContent = '● Đã đồng bộ';
     badge.style.color = 'var(--accent)';
@@ -354,6 +340,19 @@ async function loadSheetData() {
   }
 }
 
+// So khớp tỉnh thành từ reverse geocode với danh sách zones từ Sheet
+function matchZone(text) {
+  const t = norm(text);
+  const zones = sheetData.zones || [];
+  for (const z of zones) {
+    if (t.includes(norm(z.kvtt))) {
+      console.log(`[Zone] Khớp: "${z.kvtt}" → ${z.pgd}`);
+      return z;
+    }
+  }
+  return null;
+}
+
 function getDemoData() {
   return {
     branches:{
@@ -362,6 +361,16 @@ function getDemoData() {
       'Quảng Trị': {pgds:['Quảng Trị','Quảng Bình']},
       'Quảng Ngãi':{pgds:['Quảng Ngãi','KonTum']},
     },
+    zones:[
+      {kvtt:'Đà Nẵng',        chinhanh:'Đà Nẵng',    pgd:'Đà Nẵng'    },
+      {kvtt:'Quảng Nam',      chinhanh:'Đà Nẵng',    pgd:'Quảng Nam'  },
+      {kvtt:'Thừa Thiên Huế', chinhanh:'Huế',         pgd:'Huế'        },
+      {kvtt:'Huế',            chinhanh:'Huế',         pgd:'Huế'        },
+      {kvtt:'Quảng Trị',      chinhanh:'Quảng Trị',  pgd:'Quảng Trị'  },
+      {kvtt:'Quảng Bình',     chinhanh:'Quảng Trị',  pgd:'Quảng Bình' },
+      {kvtt:'Quảng Ngãi',     chinhanh:'Quảng Ngãi', pgd:'Quảng Ngãi' },
+      {kvtt:'Kon Tum',        chinhanh:'Quảng Ngãi', pgd:'KonTum'     },
+    ],
     employees:{
       'Đà Nẵng':   ['Nguyễn Văn An','Trần Thị Bảo'],
       'Quảng Nam': ['Phạm Thị Dung'],
